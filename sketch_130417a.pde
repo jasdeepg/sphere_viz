@@ -64,8 +64,9 @@ void draw(){
     for (int x_pos=0; x_pos < width; x_pos++){
       loc = x_pos + y_pos*width;
       for (int i=0; i<8; i++){ 
-        pixels[loc] = pixels[loc];
+        // calculate distance for each color combination
         calculated_distance = distance_eq(i, int(red(pixels[loc])), int(green(pixels[loc])), int(blue(pixels[loc])));
+        // if it's the smallest calculated value, mark that index
         if (calculated_distance < ref_min_value){
            min_index = i;
            ref_min_value = calculated_distance;
