@@ -56,20 +56,34 @@ void draw(){
   
   // location of the pixel based on grid above
   int loc = 0;
+  int ref_min_value = 450;
+  int min_index = 0;
+  int calculated_distance;
   
   for (int y_pos=0;  y_pos<height; y_pos++){ 
     for (int x_pos=0; x_pos < width; x_pos++){
       loc = x_pos + y_pos*width;
-      pixels[loc] = pixels[loc];
+      for (int i=0; i<8; i++){ 
+        pixels[loc] = pixels[loc];
+        calculated_distance = distance_eq(i, int(red(pixels[loc])), int(green(pixels[loc])), int(blue(pixels[loc])));
+        if (calculated_distance < ref_min_value){
+           min_index = i;
+           ref_min_value = calculated_distance;
+        }
+      }
       // print out each position
+      println("closest to this combo " + min_index);
       println("(" + x_pos + "," + y_pos + ") r " + red(pixels[loc])+ " g " + green(pixels[loc]) + " b " + blue(pixels[loc]));
       output.println("(" + x_pos + "," + y_pos + ") r " + red(pixels[loc])+ " g " + green(pixels[loc]) + " b " + blue(pixels[loc]));
+      min_index = 0;
+      ref_min_value = 450;  
     }
   }
   
   updatePixels();
   
-  println("bitwise op " + (5 & 0x01));
+  println("bitwise op " + (4 & 3));
+  println("dist " + distance_eq(4, 0, 40, 200));
   
   output.flush();  // write remaining data to file
   output.close();  // finish creating file
@@ -82,22 +96,22 @@ int distance_eq (int ref_combo, int r_px, int g_px, int b_px ){
       ref_green = 0,
       ref_blue = 0;
   
-  // logic to assign ref_combo numbers
-  if (ref_combo & 0x01){
+  // bitwise logic to assign ref_combo numbers
+  if ((ref_combo & 1) > 0){
      ref_red = 255;
   }
-  if (ref_combo & 0x02){
+  if ((ref_combo & 2) > 0){
     ref_green = 255;
   }
-  if (ref_combo & 0x04){
+  if ((ref_combo & 4) > 0){
     ref_blue = 255; 
   }
   
+  // calculate respective distances
   int red_difference = ref_red - r_px;
   int green_difference = ref_green - g_px;
   int blue_difference = ref_blue - b_px;
  
-  // calculate distance from against pixel values 
-  
-  return sqrt(pow(red_difference,2) + pow(green_difference,2) + pow(blue_difference,2));
+  // return distance formula calculation -- closer to 0 is better
+  return int(sqrt(pow(red_difference,2) + pow(green_difference,2) + pow(blue_difference,2)));
 }
