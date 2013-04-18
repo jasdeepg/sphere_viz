@@ -1,9 +1,12 @@
 PImage myImage;
+PrintWriter output;
 
 void setup(){
   
+ // grab random internet image
  String url = "https://www.cia.gov/library/publications/the-world-factbook/graphics/flags/large/us-lgflag.gif";
    
+ // load the image into processing
  myImage = loadImage(url, "gif");
    
  // resize image to 72 pixels high
@@ -16,11 +19,14 @@ void setup(){
  // scale canvas
  size(real_width, real_height);
 
+ // set up file to write to -- pixels.txt
+ output = createWriter("pixels.text");
+
+ //only run this once
  noLoop(); 
 }
 
 void draw(){
-    
   image(myImage, 0, 0);
   
   loadPixels();
@@ -40,13 +46,12 @@ void draw(){
       pixels[loc] = pixels[loc];
       // print out each position
       println("(" + x_pos + "," + y_pos + ") r " + red(pixels[loc])+ " g " + green(pixels[loc]) + " b " + blue(pixels[loc]));
+      output.println("(" + x_pos + "," + y_pos + ") r " + red(pixels[loc])+ " g " + green(pixels[loc]) + " b " + blue(pixels[loc]));
     }
   }
-
   
-  println("width " + width);
-  println("height " + height);
-  
+  output.flush();
+  output.close();
   // if height is > 72, scale down first
   // if width is > 432, scale down second
 
