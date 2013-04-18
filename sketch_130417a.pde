@@ -21,17 +21,6 @@ void setup(){
 
 void draw(){
     
-  //image(myImage, 0, 0, width, height);
-  
-  //loadPixels();
-  
- /* for (int i=0; i < (width*height); i++){
-    println("r " + red(pixels[i])+ " g " + green(pixels[i]) + " b " + blue(pixels[i]));
-  }*/
- 
-  
-  //background(255);
-  
   image(myImage, 0, 0);
   
   loadPixels();
