@@ -20,7 +20,7 @@ void setup(){
  size(real_width, real_height);
 
  // set up file to write to -- pixels.txt
- output = createWriter("pixels.text");
+ output = createWriter("pixels.txt");
 
  //only run this once
  noLoop(); 
@@ -29,6 +29,23 @@ void setup(){
 void draw(){
   image(myImage, 0, 0);
   
+  // switches to handle monochromatic distance calculation and RGB distance calculation
+  
+  // monochromatic calculation -- is it closer to white or black? binary decision
+  
+  // RGB calculation -- is it closer to one of the eight combinations?
+  // 000 - all off
+  // 001 - red on
+  // 010 - green on
+  // 011 - red, green on
+  // 100 - blue on
+  // 101 - red, blue on
+  // 110 - green, blue on
+  // 111 - red, green, blue on
+  
+  int[] color_distances = new int[8];  // hold all of the color distances?
+  
+  // for loop to map pixels to values
   loadPixels();
   
   //iterate through each pixel -- grid below
@@ -50,11 +67,37 @@ void draw(){
     }
   }
   
-  output.flush();
-  output.close();
-  // if height is > 72, scale down first
-  // if width is > 432, scale down second
-
-  
   updatePixels();
+  
+  println("bitwise op " + (5 & 0x01));
+  
+  output.flush();  // write remaining data to file
+  output.close();  // finish creating file
+  exit();  // close the program
+  
+}
+
+int distance_eq (int ref_combo, int r_px, int g_px, int b_px ){
+  int ref_red = 0, 
+      ref_green = 0,
+      ref_blue = 0;
+  
+  // logic to assign ref_combo numbers
+  if (ref_combo & 0x01){
+     ref_red = 255;
+  }
+  if (ref_combo & 0x02){
+    ref_green = 255;
+  }
+  if (ref_combo & 0x04){
+    ref_blue = 255; 
+  }
+  
+  int red_difference = ref_red - r_px;
+  int green_difference = ref_green - g_px;
+  int blue_difference = ref_blue - b_px;
+ 
+  // calculate distance from against pixel values 
+  
+  return sqrt(pow(red_difference,2) + pow(green_difference,2) + pow(blue_difference,2));
 }
