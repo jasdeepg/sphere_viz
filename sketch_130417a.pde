@@ -10,7 +10,7 @@ void setup(){
  myImage = loadImage(url, "gif");
    
  // resize image to 72 pixels high
- myImage.resize(72, 0);
+ myImage.resize(0, 72);
 
  // find real width and height
  int real_width = myImage.width;
@@ -60,8 +60,14 @@ void draw(){
   int min_index = 0;
   int calculated_distance;
   
-  for (int y_pos=0;  y_pos<height; y_pos++){ 
-    for (int x_pos=0; x_pos < width; x_pos++){
+  println("height " + height + " width " + width);
+  
+  // set up C-style array
+  output.print("{");
+  
+  for (int x_pos=0;  x_pos < width; x_pos++){
+    output.print("{");
+    for (int y_pos=0; y_pos < height; y_pos++){
       loc = x_pos + y_pos*width;
       for (int i=0; i<8; i++){ 
         // calculate distance for each color combination
@@ -75,11 +81,24 @@ void draw(){
       // print out each position
       //println("closest to this combo " + min_index);
       //println("(" + x_pos + "," + y_pos + ") r " + red(pixels[loc])+ " g " + green(pixels[loc]) + " b " + blue(pixels[loc]));
-      output.println("(" + x_pos + "," + y_pos + ") " + min_index);
+      if (y_pos<height-1){
+       output.print(min_index+",");
+      }
+      else{
+        output.print(min_index);
+      }
       min_index = 0;
       ref_min_value = 450;  
     }
+    if (x_pos<width-1){
+     output.print("},");
+    }
+    else{
+      output.print("}");
+    }
   }
+  
+  output.print("}");
   
   updatePixels();
   
