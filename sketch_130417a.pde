@@ -73,9 +73,9 @@ void draw(){
         }
       }
       // print out each position
-      println("closest to this combo " + min_index);
-      println("(" + x_pos + "," + y_pos + ") r " + red(pixels[loc])+ " g " + green(pixels[loc]) + " b " + blue(pixels[loc]));
-      output.println("(" + x_pos + "," + y_pos + ") r " + red(pixels[loc])+ " g " + green(pixels[loc]) + " b " + blue(pixels[loc]));
+      //println("closest to this combo " + min_index);
+      //println("(" + x_pos + "," + y_pos + ") r " + red(pixels[loc])+ " g " + green(pixels[loc]) + " b " + blue(pixels[loc]));
+      output.println("(" + x_pos + "," + y_pos + ") " + min_index);
       min_index = 0;
       ref_min_value = 450;  
     }
@@ -83,8 +83,8 @@ void draw(){
   
   updatePixels();
   
-  println("bitwise op " + (4 & 3));
-  println("dist " + distance_eq(4, 0, 40, 200));
+  //println("bitwise op " + (4 & 3));
+  //println("dist " + distance_eq(4, 0, 40, 200));
   
   output.flush();  // write remaining data to file
   output.close();  // finish creating file
